@@ -2,6 +2,7 @@ Creates a card everyday in a trello list which goes by the name of the month. Pr
 
 Example List-
 
+```
 -----------------
 
 |   August      |
@@ -10,13 +11,12 @@ Example List-
 |               |
 |   Day 2       |
 |               |
-
 -----------------
-
+```
 
 Example Card Contents -
 
-
+```
 -----------------
 
 |   Day 1       |
@@ -30,9 +30,8 @@ Example Card Contents -
 |               |
 | Did you have  |
 | healthy food? |
-
 -----------------
-
+```
 
 
 Instructions to execute the application
