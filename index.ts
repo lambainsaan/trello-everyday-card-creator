@@ -16,6 +16,59 @@ interface listMinimalData {
     "pos": number
 }
 
+interface checklistTopLevelObject {
+  pos: number,
+  checklists: Array<ChecklistItem>
+}
+
+interface ChecklistItem{
+  "name": string,
+  "pos"?: string,
+  "checked"?: boolean
+}
+
+
+type CardID = string;
+
+type CheckListID = string;
+
+
+const ChecklistItems: { [key: string]: checklistTopLevelObject } = {
+  "Essentials 😬": {
+    pos: 0,
+    checklists: [
+      {
+        name: "Did you wake up early? 😴"
+      },
+      {
+        name: "Did you have healthy food? 🍜"
+      },
+      {
+        name: "Did you meditate? 🕉"
+      },
+      {
+        name: "Did you go out for a run? 🏃‍"
+      }
+    ]
+  },
+  "Readings 📚": {
+    pos: 1,
+    checklists: []
+  },
+  "Random TODOs :done:": {
+    pos: 2,
+    checklists: []
+  },
+  "Coding 💻": {
+    pos: 3,
+    checklists: []
+  },
+  "Jobs 👨‍🔬": {
+    pos: 4,
+    checklists: []
+  }
+};
+
 let fileContent: string = fs.readFileSync('config.json', 'utf8');
 let configJSON: any = JSON.parse(fileContent);
 
@@ -35,20 +88,19 @@ let data: object = {};
 
 
 
-function createListIfDNE(inBoard: string, listName: string) {
+function createlistIfDNE(inBoard: string, listName: string) {
     return new Promise(
         (resolve, reject) => {
-            getLists(inBoard).then(
+            getlists(inBoard).then(
                 listData => {
 
                     for (var x of (listData.data as Array<listNesetedResource>)){
-                        console.log(`name ${x.name}, listName ${listName}, name === listName = ${x.name === listName}`)
                         if (x.name === listName) {
                             return resolve(x.id);
                         }
                     }
                     // If the list does not contain the list, create the list.
-                    createList({
+                    createlist({
                         "name": listName,
                         "idBoard": inBoard,
                         "pos": 'top'
@@ -70,11 +122,11 @@ function getBoardData(boardID: string): Promise<any> {
 }
 
 
-function getLists(boardID: string): Promise<any> {
+function getlists(boardID: string): Promise<any> {
     return makeGetRequestFromEndPoint(`/boards/${boardID}/lists`)
 }
 
-function createList(data: object) {
+function createlist(data: object) {
     return makePostRequestToEndPoint(`/lists`, data);
 }
 
@@ -113,8 +165,8 @@ function makePostRequestToEndPoint(endPoint:string, data: object) : Promise<any>
     )
 }
 
-function createListWithNameOfMonth(boardID:string) : Promise<any>{
-    return createListIfDNE(boardID, moment.months()[moment().month()])
+function createlistWithNameOfMonth(boardID:string) : Promise<any>{
+    return createlistIfDNE(boardID, moment.months()[moment().month()])
 }
 
 function createDatedCard(listID: string) : Promise<any>{
@@ -125,39 +177,38 @@ function createDatedCard(listID: string) : Promise<any>{
         idList: listID
     }
     return new Promise(
-        (resolve, reject) => {
+        (resolve, reject) => { 
             return makePostRequestToEndPoint(`/cards`, cardData).then(
                 data => resolve(data.data.id),
-                err => reject(err.data)
+                err => reject(err)
             )
         }
     )
 }
 
-function createCheckList(checkListName:string, cardID: string) {
+function createChecklist(checklistName:string, cardID: string, pos:number = Math.random()) {
     return new Promise(
         (resolve, reject) => {
             makePostRequestToEndPoint(`/checklists`, {
                 idCard: cardID,
-                name: checkListName
+                name: checklistName,
+                pos: pos
             }).then(
-                x => resolve(x.data.id)
+                x => resolve([checklistName, x.data.id])
             )
         }
     )
 }
 
 
-function createBasicCheckLists(cardID: string) {
-    let checklistIDs = {}
-    let checkListNames = ["Essentials 😬", "Readings 📚", "Readings 💻", "Jobs 👨‍🔬"]
-    let checkListPromises = checkListNames.map(
-        x => createCheckList(x, cardID)
+function createBasicChecklists(cardID: string): Promise<Array<any>> {
+    let checklistPromises = Object.keys(ChecklistItems).map(
+        x => createChecklist(x, cardID, ChecklistItems[x]["pos"])
     )
 
     return new Promise(
         (resolve, reject) => {
-            Promise.all(checkListPromises).then(
+            Promise.all(checklistPromises).then(
                 values => {
                     resolve(values)
                 }
@@ -166,3 +217,22 @@ function createBasicCheckLists(cardID: string) {
     )
 
 }
+
+function createChecklistItem(checklistItem: object, inChecklist: CheckListID) {
+  return new Promise(
+    (resolve, reject) => {
+      makePostRequestToEndPoint(`/checklists/${inChecklist}/checkItems`, checklistItem);
+    }
+  )
+}
+
+function createChecklistItems(checklistItems:Array<any>, inChecklist: CardID) {
+  return new Promise(
+    (resolve, reject) => {
+      Promise.all(checklistItems.map(
+        checklistItem => createChecklistItem(checklistItem, inChecklist)
+      ))
+    }
+  )
+}
+
