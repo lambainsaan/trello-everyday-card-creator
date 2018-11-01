@@ -1,0 +1,25 @@
+{
+  "name": "trello_card_creator",
+  "version": "1.0.0",
+  "description": "This server app creates a card in a specified board everyday, with some important questions for life and an approach towards being more organized.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lambainsaan/trello-everyday-card-creator.git"
+  },
+  "author": "Rhitik Bhatt <bhattrhitik95@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lambainsaan/trello-everyday-card-creator/issues"
+  },
+  "homepage": "https://github.com/lambainsaan/trello-everyday-card-creator#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.1"
+  }
+}
