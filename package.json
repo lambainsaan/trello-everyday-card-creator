@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/lambainsaan/trello-everyday-card-creator#readme",
   "dependencies": {
-    "axios": "^0.18.0"
+    "@types/es6-promise": "^3.3.0",
+    "axios": "^0.18.0",
+    "moment": "^2.22.2"
   },
   "devDependencies": {
     "@types/node": "^10.12.1"
