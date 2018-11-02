@@ -1,5 +1,17 @@
 {
     "TOKEN": "API-Token goes here",
     "KEY": "API-Key goes here",
+    /*
+    * Instructions to get TOKEN and KEY
+    * https: //developers.trello.com/docs/api-introduction#section--a-name-auth-authentication-and-authorization-a-
+    */
     "BOARDID": "Board ID goes here"
+    /*
+    * You can get the BOARDID by making a GET request to
+    * https://api.trello.com/1/boards/<board-short-id>?key=<api-key>&token=<api-token>
+    * it contains BOARDID under the id field.
+    * Here board-short-id can be fetched by going to the GUI of Trello and
+    * copying the hash from the URL.
+    * https://trello.com/b/ImAHaSh/hey-sis-or-bro
+    */
 }
