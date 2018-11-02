@@ -236,3 +236,17 @@ function createChecklistItems(checklistItems:Array<any>, inChecklist: CardID) {
   )
 }
 
+createlistWithNameOfMonth(configJSON.BOARDID).then(listID => {
+  createDatedCard(listID).then(
+    cardID => {
+      createBasicChecklists(cardID).then(checklists => {
+        checklists.map(checklist =>
+          createChecklistItems(
+            ChecklistItems[checklist[0]]["checklists"],
+            checklist[1]
+          )
+        );
+      });
+    },
+  );
+});
