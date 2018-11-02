@@ -4,7 +4,8 @@
   "description": "This server app creates a card in a specified board everyday, with some important questions for life and an approach towards being more organized.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "exec": "tsc && node index.js"
   },
   "repository": {
     "type": "git",
