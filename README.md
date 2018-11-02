@@ -62,6 +62,9 @@ Trello is much more than just a simple TODO software, it is a lot more customiza
 
 Before you execute the script you need to set up a [config file](#configFile).
 
+Okay, done that, install the dependencies.
+`npm install`
+
 Once you have done that do,
 `npm run exec`
 
